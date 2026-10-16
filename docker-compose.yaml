@@ -17,8 +17,10 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
+
     networks:
-      - chesstracker
+      - user-service-postgres
+      - game-service-postgres
 
   kafka:
     image: apache/kafka:4.1.2
@@ -57,12 +59,18 @@ services:
       - kafka_data:/var/lib/kafka/data
 
     networks:
-      - chesstracker
+      - game-service-kafka
 
 volumes:
   postgres_data:
   kafka_data:
 
 networks:
-  chesstracker:
-    name: chesstracker
+  user-service-postgres:
+    external: true
+
+  game-service-postgres:
+    external: true
+
+  game-service-kafka:
+    external: true
